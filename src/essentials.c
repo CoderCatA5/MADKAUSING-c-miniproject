@@ -23,7 +23,7 @@ void Ballmovement(struct Ball_pong *ball){
         if(ball->pos.y<0)ball->pos.y=15;
         if(ball->pos.y>900)ball->pos.y=885;
         if(ball->velocity.x>20)ball->velocity.x=20;
-        if(ball->velocity.y>25)ball->velocity.y=25;
+        if(ball->velocity.y>20)ball->velocity.y=20;
         
     }else{
         ball->velocity.x=0;
