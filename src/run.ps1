@@ -1,0 +1,3 @@
+gcc -c main.c -o ..\object\main.o -Wall -std=c99 -Wno-missing-braces -I ..\include\ -L ..\lib\ -lraylib -lopengl32 -lgdi32 -lwinmm 
+gcc -c essentials.c -o ..\object\essentials.o -Wall -std=c99 -Wno-missing-braces -I ..\include\ -L ..\lib\ -lraylib -lopengl32 -lgdi32 -lwinmm 
+gcc ..\object\main.o ..\object\essentials.o -o ..\game.exe -Wall -std=c99 -Wno-missing-braces -I ..\include\ -L ..\lib\ -lraylib -lopengl32 -lgdi32 -lwinmm 
