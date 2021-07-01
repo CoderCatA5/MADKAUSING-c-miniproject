@@ -11,7 +11,8 @@ void Ballmovement(struct Ball_pong *ball){
     //but here t is taken as 1
     
     if(ball->active){
-
+         if(ball->velocity.x>20)ball->velocity.x=20;//limiting the max velocities of the ball
+        if(ball->velocity.y>20)ball->velocity.y=20;
         ball->pos.x  +=   ball->velocity.x + (ball->acceleration.x * 0.5);
         ball->pos.y  +=   ball->velocity.y + (ball->acceleration.y * 0.5);
 
@@ -22,7 +23,7 @@ void Ballmovement(struct Ball_pong *ball){
         if(ball->pos.x<0)ball->pos.x=15;
         if(ball->pos.y<0)ball->pos.y=15;
         if(ball->pos.y>900)ball->pos.y=885;
-        if(ball->velocity.x>20)ball->velocity.x=20;
+        if(ball->velocity.x>20)ball->velocity.x=20;//limiting the max velocities of the ball
         if(ball->velocity.y>20)ball->velocity.y=20;
         
     }else{
@@ -43,6 +44,8 @@ void Ballmovement(struct Ball_pong *ball){
 
 
 void Check_Inputs(struct Slider_pong *player1,struct Slider_pong *player2){
+    //checkin player inputs
+
     if(IsKeyDown(KEY_W)&& player1->rect.y>5){
         player1->rect.y-=5;
     }
@@ -87,6 +90,7 @@ void Render_Pong(struct Slider_pong player1,
         {
             switch ((bricks+i)->health)
             {
+            //changing color based on health
             case 3:
                 brickcolor=DARKGRAY;
                 break;

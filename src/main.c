@@ -50,7 +50,7 @@ int main(){
     ball.acceleration.y=0;
     ball.active=1;
 
-
+    //generating all the bricks
     struct Bricks_pong bricks[60];
     for(int i=0;i<10;i++){
         for (int j = 0; j < 3; j++)
