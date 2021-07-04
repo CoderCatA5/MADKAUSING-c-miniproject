@@ -25,6 +25,8 @@ void Ballmovement(struct Ball_pong *ball){
         if(ball->pos.y>900)ball->pos.y=885;
         if(ball->velocity.x>20)ball->velocity.x=20;//limiting the max velocities of the ball
         if(ball->velocity.y>20)ball->velocity.y=20;
+
+    
         
     }else{
         ball->velocity.x=0;
@@ -140,11 +142,11 @@ void Pong_check_collisions(
         //collision logic for sliders
         if(CheckCollisionCircleRec(ball->pos,ball->radius,player1->rect)){
                 ball->velocity.x*=-1;
-                ball->velocity.y =((ball->pos.y +(176/2)) -player2->rect.y)/(player2->rect.height/2)*10;
+                ball->velocity.y =(ball->pos.y  -(player1->rect.y+(176/2)))/(player2->rect.height/2)*5;
             }
         if(CheckCollisionCircleRec(ball->pos,ball->radius,player2->rect)){
                 ball->velocity.x*=-1;
-                ball->velocity.y =((ball->pos.y +(176/2)) -player2->rect.y)/(player2->rect.height/2)*10;
+                ball->velocity.y =(ball->pos.y  -(player2->rect.y+(176/2)))/(player2->rect.height/2)*5;
             }
 
         //colission logic for bricks
@@ -158,6 +160,9 @@ void Pong_check_collisions(
                 
             }
         }
+        //player2->rect.y=ball->pos.y;
+        //single player moment;
+        
     }else ball->active=0;
            
         

@@ -73,16 +73,17 @@ int main(){
 
     printf("WTH");
     InitWindow(WINWIDTH,WINHEIGHT,"PongVer3");
-    SetTargetFPS(120);
+    SetTargetFPS(240);
     //mainloop which updates every 
     while(!WindowShouldClose()){
         BeginDrawing();
             ClearBackground(CANARY);
-            Ballmovement(&ball);
+            
             Pong_check_collisions(&ball,&player1,&player2,red1,red2,blue1,blue2,bricks);
             Render_Pong(player1,player2,red1,red2,blue1,blue2,ball,bricks);
             Check_Inputs(&player1,&player2);
             Render_Lives(&player1,&player2);
+            Ballmovement(&ball);
             
 
         EndDrawing();
