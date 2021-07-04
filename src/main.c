@@ -73,7 +73,7 @@ int main(){
 
     printf("WTH");
     InitWindow(WINWIDTH,WINHEIGHT,"PongVer3");
-    SetTargetFPS(240);
+    SetTargetFPS(120);
     //mainloop which updates every 
     while(!WindowShouldClose()){
         BeginDrawing();
