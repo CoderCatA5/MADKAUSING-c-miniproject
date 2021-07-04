@@ -47,7 +47,7 @@ int main(){
     ball.velocity.x=5;
     ball.velocity.y=0;
     ball.acceleration.x=0;
-    ball.acceleration.y=0;
+    ball.acceleration.y=0.0;
     ball.active=1;
 
     //generating all the bricks

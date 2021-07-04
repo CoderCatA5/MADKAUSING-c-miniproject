@@ -140,11 +140,11 @@ void Pong_check_collisions(
         //collision logic for sliders
         if(CheckCollisionCircleRec(ball->pos,ball->radius,player1->rect)){
                 ball->velocity.x*=-1;
-                ball->velocity.y =(ball->pos.y -player1->rect.y)/(player1->rect.height/2)*5;
+                ball->velocity.y =((ball->pos.y +(176/2)) -player2->rect.y)/(player2->rect.height/2)*10;
             }
         if(CheckCollisionCircleRec(ball->pos,ball->radius,player2->rect)){
                 ball->velocity.x*=-1;
-                ball->velocity.y =(ball->pos.y -player2->rect.y)/(player2->rect.height/2)*5;
+                ball->velocity.y =((ball->pos.y +(176/2)) -player2->rect.y)/(player2->rect.height/2)*10;
             }
 
         //colission logic for bricks
