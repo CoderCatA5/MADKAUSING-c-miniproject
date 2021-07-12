@@ -79,7 +79,7 @@ int main()
     const int WindowWidth = 1600;
     const int WindowHeight = 900;
 
-    InitWindow(WindowWidth, WindowHeight, "MyGame");
+    
 
     Image X = LoadImage("resources/X logo.png");
     ImageResize(&X, (float)X.width / 5, (float)X.height / 5);
