@@ -9,8 +9,11 @@ int WINWIDTH = 1600;
 
 int main()
 {
+    //initializing game window
+    Game_Window=3;
+    //3 for pong
+    
     //initializing elements
-
     //player1
 
     struct Slider_pong player1;
@@ -76,15 +79,16 @@ int main()
     //mainloop which updates every
     while (!WindowShouldClose())
     {
-        BeginDrawing();
-        ClearBackground(BLACK);
-
-        Pong_check_collisions(&ball, &player1, &player2, red1, red2, blue1, blue2, bricks);
-        Render_Pong(&player1, &player2, red1, red2, blue1, blue2, &ball, bricks);
-        Check_Inputs(&player1, &player2);
-        Render_Lives(&player1, &player2);
-        Ballmovement(&ball);
-        EndDrawing();
+        switch (Game_Window)
+        {
+        case 3:
+            Draw_Pong(&player1,&player2,red1,red2,blue1,blue2,&ball,bricks);
+            break;
+        
+        default:
+            break;
+        }
+        
     }
     return 0;
 }

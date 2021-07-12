@@ -205,23 +205,23 @@ void Render_Lives(
     DrawText(snum2, 1100, 300, 80, RAYWHITE);
 }
 
-/*void Draw_Pong(
-struct Slider_pong *player1,
-struct Slider_pong *player2,
-Rectangle red1,
-Rectangle red2,
-Rectangle blue1,
-Rectangle blue2,
-struct Ball_pong *ball,
-struct Bricks_pong *bricks
-){
- BeginDrawing();
-            ClearBackground(BLACK);
-            
-            Pong_check_collisions(&ball,&player1,&player2,red1,red2,blue1,blue2,bricks);
-            Render_Pong(&player1,&player2,red1,red2,blue1,blue2,ball,bricks);
-            Check_Inputs(&player1,&player2);
-            Render_Lives(&player1,&player2);
-            Ballmovement(&ball);
-        EndDrawing();
-}*/
+void Draw_Pong(
+    struct Slider_pong *player1,
+    struct Slider_pong *player2,
+    Rectangle red1,
+    Rectangle red2,
+    Rectangle blue1,
+    Rectangle blue2,
+    struct Ball_pong *ball,
+    struct Bricks_pong *bricks)
+{
+    BeginDrawing();
+    ClearBackground(BLACK);
+
+    Pong_check_collisions(&*ball, &*player1, &*player2, red1, red2, blue1, blue2, bricks);
+    Render_Pong(&*player1, &*player2, red1, red2, blue1, blue2, ball, bricks);
+    Check_Inputs(&*player1, &*player2);
+    Render_Lives(&*player1, &*player2);
+    Ballmovement(&*ball);
+    EndDrawing();
+}
