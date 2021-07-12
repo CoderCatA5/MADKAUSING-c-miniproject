@@ -402,8 +402,8 @@ void Draw_Menu(struct Button *b){
     BeginDrawing();
     ClearBackground(BLACK);
     for(int i=0;i<3;i++){
-        DrawRectangleRec((b+i)->btn_bounds,(b+i)->btn_color);
-        
+         DrawRectangleRec((b+i)->btn_bounds,(b+i)->btn_color);
+        //DrawTexture(ponglogo,(b+i)->btn_bounds.x,(b+i)->btn_bounds.y,BLANK);
     }
     EndDrawing();
 }

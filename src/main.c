@@ -122,6 +122,7 @@ int main()
 
 
     //initializing stuff for the menu
+   
     struct Button menu_Button[3];
     for (int i = 0; i < 3; i++)
     {
@@ -157,6 +158,7 @@ int main()
     UnloadTexture(Nought);
     UnloadTexture(grid_texture);
     UnloadTexture(blank);
+    
 
     return 0;
 }
