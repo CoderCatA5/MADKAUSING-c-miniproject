@@ -71,6 +71,7 @@ void Check_Inputs(struct Slider_pong *player1, struct Slider_pong *player2)
         player2->rect.y += 5;
     }
 }
+
 void Render_Pong(struct Slider_pong *player1,
                  struct Slider_pong *player2,
                  Rectangle red1,
