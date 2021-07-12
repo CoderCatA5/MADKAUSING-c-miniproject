@@ -217,7 +217,6 @@ void Draw_Pong(
 {
     BeginDrawing();
     ClearBackground(BLACK);
-
     Pong_check_collisions(&*ball, &*player1, &*player2, red1, red2, blue1, blue2, bricks);
     Render_Pong(&*player1, &*player2, red1, red2, blue1, blue2, ball, bricks);
     Check_Inputs(&*player1, &*player2);
