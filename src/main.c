@@ -10,7 +10,7 @@ int WINWIDTH = 1600;
 int main()
 {
     //initializing game window
-    Game_Window = 3;
+    Game_Window = 0;
     //3 for pong
     InitWindow(WINWIDTH, WINHEIGHT, "MadKauSing");
 
@@ -100,7 +100,6 @@ int main()
         b[i].img = blank;
     }
     int k = 0;
-
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -121,13 +120,30 @@ int main()
     for (int i = 0; i < 9; i++)
         g.pos[i] = 0;
 
+
+    //initializing stuff for the menu
+    struct Button menu_Button[3];
+    for (int i = 0; i < 3; i++)
+    {
+        menu_Button[i].btn_action = 0; 
+        menu_Button[i].btn_bounds.x= 100 + 250*i;
+        menu_Button[i].btn_bounds.y=  450;
+        menu_Button[i].btn_bounds.height= 100;
+        menu_Button[i].btn_bounds.width= 100;
+        menu_Button[i].btn_color=YELLOW;
+    }
+    
+    
     SetTargetFPS(240);
     //mainloop which updates every
     while (!WindowShouldClose())
     {
         switch (Game_Window)
         {
-
+        case 0:
+            Draw_Menu(menu_Button);
+            Menu_button(menu_Button,Game_Window,mousePoint);
+            break;
         case 3:
             Draw_Pong(&player1, &player2, red1, red2, blue1, blue2, &ball, bricks);
             break;
