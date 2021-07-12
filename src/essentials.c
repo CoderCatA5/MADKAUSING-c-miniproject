@@ -378,3 +378,32 @@ void Draw_TicTacToe(
     EndDrawing();
 }
 
+
+void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint){
+    mousePoint = GetMousePosition();
+    for (int i = 0; i < 3; i++)
+    {
+        //if statement checks if the mouse is over the button and the user has left clicked on the button
+        if (CheckCollisionPointRec(mousePoint, (b + i)->btn_bounds))
+        {
+            //Technically the button is pressed when you release the left mouse button but that's fine
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                (b + i)->btn_action = 1;
+        }
+        if ((b + i)->btn_action == 1){
+            
+            Game_Window = i+1;
+        }
+    }
+}
+
+
+void Draw_Menu(struct Button *b){
+    BeginDrawing();
+    ClearBackground(BLACK);
+    for(int i=0;i<3;i++){
+        DrawRectangleRec((b+i)->btn_bounds,(b+i)->btn_color);
+        
+    }
+    EndDrawing();
+}
