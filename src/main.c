@@ -20,6 +20,8 @@ int main()
 
     //initializing window
     InitWindow(WINWIDTH, WINHEIGHT, "MadKauSing");
+    SetWindowIcon(LoadImage("resources/madkausinglogo.png"));
+
 
     //initializing elements for PONG
 
