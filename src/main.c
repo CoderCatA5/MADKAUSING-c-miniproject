@@ -10,9 +10,9 @@ int WINWIDTH = 1600;
 int main()
 {
     //initializing game window
-    Game_Window=3;
+    Game_Window = 3;
     //3 for pong
-    
+
     //initializing elements
     //player1
 
@@ -82,13 +82,12 @@ int main()
         switch (Game_Window)
         {
         case 3:
-            Draw_Pong(&player1,&player2,red1,red2,blue1,blue2,&ball,bricks);
+            Draw_Pong(&player1, &player2, red1, red2, blue1, blue2, &ball, bricks);
             break;
-        
+
         default:
             break;
         }
-        
     }
     return 0;
 }
