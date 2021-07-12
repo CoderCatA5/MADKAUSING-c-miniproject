@@ -4,6 +4,7 @@
 #include "../include/raylib.h"
 #include "../include/utils.h"
 
+//functions for pong
 void Ballmovement(struct Ball_pong *ball)
 {
 
@@ -224,3 +225,156 @@ void Draw_Pong(
     Ballmovement(&*ball);
     EndDrawing();
 }
+
+//functions for tictactoe
+
+void check_button(struct Button *b, struct game *g, Vector2 mousePoint, Texture2D X, Texture2D O)
+{
+    for (int i = 0; i < 9; i++)
+    {
+        //if statement checks if the mouse is over the button and the user has left clicked on the button
+        if (CheckCollisionPointRec(mousePoint, (b + i)->btn_bounds))
+        {
+            //Technically the button is pressed when you release the left mouse button but that's fine
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                (b + i)->btn_action = 1;
+        }
+        if ((b + i)->btn_action == 1 && g->pos[i] == 0)
+        {
+            //In this block you write the code that is executed when the button is pressed
+            if (g->round % 2 == 0)
+            {
+                (b + i)->img = X;
+                (b + i)->btn_color = BLUE;
+                g->pos[i] = 1;
+            }
+            else if (g->round % 2 == 1)
+            {
+                (b + i)->img = O;
+                (b + i)->btn_color = PINK;
+                g->pos[i] = 2;
+            }
+            g->round++;
+            (b + i)->btn_action = 2;
+            // printf("%d\n",g->pos[i]);
+        }
+    }
+}
+
+void make_grid(struct Button *b, int WindowWidth, int WindowHeight, Texture2D grid)
+{
+    DrawTexture(grid, WindowWidth / 2 - grid.width / 2, WindowHeight / 2 - grid.height / 2, WHITE);
+    for (int i = 0; i < 9; i++)
+    {
+        //DrawRectangleRec((b+i)->btn_bounds,(b+i)->btn_color);
+        DrawTexture((b + i)->img, (b + i)->btn_bounds.x, (b + i)->btn_bounds.y, (b + i)->btn_color);
+    }
+}
+
+bool check_win_condition(struct game *g)
+{
+    int sign;
+    if (g->round % 2 == 1)
+    {
+        sign = 1;
+    }
+    else if (g->round % 2 == 0)
+    {
+        sign = 2;
+    }
+    //horizontal row check
+    int flag = 0;
+    for (int i = 0; i < 9; i++)
+    {
+        if (i % 3 == 0)
+            flag = 0;
+        if (g->pos[i] == sign)
+            flag++;
+        if (flag == 3)
+        {
+            g->winner = sign;
+        }
+    }
+
+    flag = 0;
+    //vertical row check
+    for (int i = 0; i < 3; i++)
+    {
+        for (int k = i; k <= i + 6; k += 3)
+        {
+            if (g->pos[k] == sign)
+                flag++;
+        }
+        if (flag == 3)
+        {
+            g->winner = sign;
+        }
+        flag = 0;
+    }
+
+    flag = 0;
+
+    if ((g->pos[0] == sign && g->pos[4] == sign && g->pos[8] == sign) || (g->pos[2] == sign && g->pos[4] == sign && g->pos[6] == sign))
+    {
+        g->winner = sign;
+    }
+    if (g->winner != 0)
+    {
+        g->game_end = true;
+    }
+    return g->game_end;
+}
+
+void Draw_TicTacToe(
+    int WINHEIGHT,
+    int WINWIDTH,
+    Vector2 mousePoint,
+    Texture2D Cross,
+    Texture2D Nought,
+    Texture2D grid_texture,
+    struct Button *b,
+    struct game *g)
+{
+    mousePoint = GetMousePosition();
+    // if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+    //     printf("%f %f\n",mousePoint.x,mousePoint.y);
+    //     // printf("%d\n",g.round);
+    // }
+
+    BeginDrawing();
+    ClearBackground(BLACK);
+    if (!check_win_condition(&*g) && g->round < 9)
+    {
+        check_button(b, &*g, mousePoint, Cross, Nought);
+        //Draws a grid of red lines marking the board
+        make_grid(b, WINWIDTH, WINHEIGHT, grid_texture);
+        switch (g->round % 2)
+        {
+        case 0:
+            DrawText("Player 1's turn", 300, 200, 30, BLUE);
+            break;
+        case 1:
+            DrawText("Player 2's turn", 1100, 200, 30, GREEN);
+            break;
+        }
+        // check_win_condition(&g);
+        //if(check_win_condition(&g)) break;
+    }
+    else
+    {
+        switch (g->winner)
+        {
+        case 0:
+            DrawText("It's a draw.", 700, 450, 30, YELLOW);
+            break;
+        case 1:
+            DrawText("Player 1 wins.", 700, 450, 30, BLUE);
+            break;
+        case 2:
+            DrawText("Player 2 wins.", 700, 450, 30, GREEN);
+            break;
+        }
+    }
+    EndDrawing();
+}
+

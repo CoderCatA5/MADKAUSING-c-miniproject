@@ -12,6 +12,7 @@ int main()
     //initializing game window
     Game_Window = 3;
     //3 for pong
+    InitWindow(WINWIDTH, WINHEIGHT, "MadKauSing");
 
     //initializing elements
     //player1
@@ -74,20 +75,72 @@ int main()
         }
     }
 
-    InitWindow(WINWIDTH, WINHEIGHT, "PongVer3");
+    //initializing for tictactoe
+
+    Image X = LoadImage("resources/X logo.png");
+    ImageResize(&X, (float)X.width / 5, (float)X.height / 5);
+    Image O = LoadImage("resources/O logo.png");
+    ImageResize(&O, (float)O.width / 5, (float)O.height / 5);
+    Image grid = LoadImage("resources/grid logo.png");
+
+    Texture2D Cross = LoadTextureFromImage(X);
+    Texture2D Nought = LoadTextureFromImage(O);
+    Texture2D grid_texture = LoadTextureFromImage(grid);
+    Texture2D blank = LoadTexture("resources/blank.jpg");
+
+    Vector2 mousePoint = {0.0f, 0.0f};
+
+    //declare and initialize button struct.
+    struct Button b[9];
+    for (int i = 0; i < 9; i++)
+    {
+        b[i].btn_state = 0;
+        b[i].btn_action = 0;
+        b[i].btn_color = BLUE;
+        b[i].img = blank;
+    }
+    int k = 0;
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            b[k].btn_bounds.x = 610 + (grid.width / 3) * i;
+            b[k].btn_bounds.y = 270 + (grid.height / 3) * j;
+            b[k].btn_bounds.width = 140;
+            b[k].btn_bounds.height = 100;
+            k++;
+        }
+    }
+
+    struct game g;
+    g.mode = 0;
+    g.winner = 0;
+    g.round = 0;
+    g.game_end = false;
+    for (int i = 0; i < 9; i++)
+        g.pos[i] = 0;
+
     SetTargetFPS(240);
     //mainloop which updates every
     while (!WindowShouldClose())
     {
         switch (Game_Window)
         {
+
         case 3:
             Draw_Pong(&player1, &player2, red1, red2, blue1, blue2, &ball, bricks);
             break;
 
-        default:
+        case 2:
+            Draw_TicTacToe(WINHEIGHT, WINWIDTH, mousePoint, Cross, Nought, grid_texture, b, &g);
             break;
         }
     }
+    UnloadTexture(Cross);
+    UnloadTexture(Nought);
+    UnloadTexture(grid_texture);
+    UnloadTexture(blank);
+
     return 0;
 }
