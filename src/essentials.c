@@ -61,32 +61,37 @@ void Check_Inputs(struct Slider_pong *player1,struct Slider_pong *player2){
         player2->rect.y+=5;
     }
 }
-void Render_Pong(struct Slider_pong player1,
-            struct Slider_pong player2,
+void Render_Pong(struct Slider_pong *player1,
+                struct Slider_pong *player2,
                 Rectangle red1,
                 Rectangle red2,
                 Rectangle blue1,
                 Rectangle blue2,
-                struct Ball_pong ball,
+                struct Ball_pong *ball,
                 struct  Bricks_pong *bricks)
     {
     //bricks color logic
     Color brickcolor;
     
 
-    DrawRectangle(800,0,5,900,RAYWHITE);//midfeild
+    DrawRectangle(800,0,1,900,DARKGRAY);//midfeild
 
     //drawing elements
-    DrawRectanglePro(player1.rect,(Vector2){0,0},player1.rotation,(Color){ 10, 10, 10, 240 } );
-    DrawRectanglePro(player2.rect,(Vector2){0,0},player2.rotation,(Color){ 10, 10, 10, 240 } );
+    //DrawRectanglePro(player1.rect,(Vector2){0,0},player1.rotation,(Color){ 10, 10, 10, 240 } );
+    //DrawRectanglePro(player2.rect,(Vector2){0,0},player2.rotation,(Color){ 10, 10, 10, 240 } );
+    DrawRectangleRounded(player1->rect, 0.5f, 100, WHITE);
+    DrawRectangleRounded(player2->rect, 0.5f, 100, WHITE);
 
-    DrawRectanglePro(red1,(Vector2){0,0},0.0f,RED);
-    DrawRectanglePro(red2,(Vector2){0,0},0.0f,RED);
-    DrawRectanglePro(blue1,(Vector2){0,0},0.0f,BLACK);
-    DrawRectanglePro(blue2,(Vector2){0,0},0.0f,BLACK);
 
-    if(ball.active)DrawCircle(ball.pos.x,ball.pos.y,ball.radius,BLACK);
 
+    DrawRectanglePro(red1,(Vector2){0,0},0.0f,DARKGRAY);
+    DrawRectanglePro(red2,(Vector2){0,0},0.0f,DARKGRAY);
+    DrawRectanglePro(blue1,(Vector2){0,0},0.0f,DARKGRAY);
+    DrawRectanglePro(blue2,(Vector2){0,0},0.0f,DARKGRAY);
+
+
+    if(ball->active)DrawCircleGradient(ball->pos.x,ball->pos.y,ball->radius,WHITE,PINK);  
+    
     for(int i=0;i<60 ;i++){
         if((bricks+i)->is_active)
         {
@@ -94,19 +99,24 @@ void Render_Pong(struct Slider_pong player1,
             {
             //changing color based on health
             case 3:
-                brickcolor=DARKGRAY;
+                brickcolor=BLUE;
                 break;
             case 2:
-                brickcolor=GRAY;
+                brickcolor=YELLOW;
                 break;
             case 1:
-                brickcolor=LIGHTGRAY;
+                brickcolor=RED;
                 break;
             
             default:
                 break;
             }
-            DrawRectanglePro((bricks+i)->rect,(Vector2){0,0},0.0f,brickcolor);
+            /*
+            void DrawRectangleRounded(Rectangle rec, float roundness, int segments, Color color);               // Draw rectangle with rounded edges
+            void DrawRectangleRoundedLines(Rectangle rec, float roundness, int segments, int lineThick, Color color);*/
+            //DrawRectanglePro((bricks+i)->rect,(Vector2){0,0},0.0f,brickcolor);
+            
+            DrawRectangleRoundedLines((bricks+i)->rect, 0.4f,0,3,brickcolor);
         }
     }
 }
@@ -177,9 +187,28 @@ void Render_Lives(
         itoa(player1->lives,snum1,10);
         itoa(player2->lives,snum2,10);
         
-        DrawFPS(750,800);
-        DrawText(snum1,500,300,80,GRAY);
-        DrawText(snum2,1100,300,80,GRAY);
-
-
+        DrawFPS(10,10);
+        DrawText(snum1,500,300,80,RAYWHITE);
+        DrawText(snum2,1100,300,80,RAYWHITE);
     }
+
+/*void Draw_Pong(
+struct Slider_pong *player1,
+struct Slider_pong *player2,
+Rectangle red1,
+Rectangle red2,
+Rectangle blue1,
+Rectangle blue2,
+struct Ball_pong *ball,
+struct Bricks_pong *bricks
+){
+ BeginDrawing();
+            ClearBackground(BLACK);
+            
+            Pong_check_collisions(&ball,&player1,&player2,red1,red2,blue1,blue2,bricks);
+            Render_Pong(&player1,&player2,red1,red2,blue1,blue2,ball,bricks);
+            Check_Inputs(&player1,&player2);
+            Render_Lives(&player1,&player2);
+            Ballmovement(&ball);
+        EndDrawing();
+}*/

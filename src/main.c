@@ -14,6 +14,8 @@ int main(){
     //initializing elements
 
     //player1
+
+
     struct Slider_pong player1;
     player1.rect.x=100;
     player1.rect.y=450;
@@ -71,22 +73,22 @@ int main(){
         }
     }
 
-    printf("WTH");
+    
     InitWindow(WINWIDTH,WINHEIGHT,"PongVer3");
     SetTargetFPS(240);
     //mainloop which updates every 
     while(!WindowShouldClose()){
         BeginDrawing();
-            ClearBackground(CANARY);
+            ClearBackground(BLACK);
             
             Pong_check_collisions(&ball,&player1,&player2,red1,red2,blue1,blue2,bricks);
-            Render_Pong(player1,player2,red1,red2,blue1,blue2,ball,bricks);
+            Render_Pong(&player1,&player2,red1,red2,blue1,blue2,&ball,bricks);
             Check_Inputs(&player1,&player2);
             Render_Lives(&player1,&player2);
             Ballmovement(&ball);
-            
-
         EndDrawing();
+
+        
 
     }
     return 0;
