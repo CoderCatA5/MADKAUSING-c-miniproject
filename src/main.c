@@ -11,12 +11,19 @@ int main()
 {
     //initializing game window
     Game_Window = 0;
-    //3 for pong
+    /*
+    0-Menu
+    1-RLSPS
+    2=TICTACTOE
+    3-PONG
+    */
+
+    //initializing window
     InitWindow(WINWIDTH, WINHEIGHT, "MadKauSing");
 
-    //initializing elements
-    //player1
+    //initializing elements for PONG
 
+    //player1
     struct Slider_pong player1;
     player1.rect.x = 100;
     player1.rect.y = 450;
@@ -75,8 +82,9 @@ int main()
         }
     }
 
-    //initializing for tictactoe
+    //initializing for TICTACTOE
 
+    //loading images for rendering
     Image X = LoadImage("resources/X logo.png");
     ImageResize(&X, (float)X.width / 5, (float)X.height / 5);
     Image O = LoadImage("resources/O logo.png");
@@ -88,6 +96,7 @@ int main()
     Texture2D grid_texture = LoadTextureFromImage(grid);
     Texture2D blank = LoadTexture("resources/blank.jpg");
 
+    //vec
     Vector2 mousePoint = {0.0f, 0.0f};
 
     //declare and initialize button struct.
@@ -120,21 +129,32 @@ int main()
     for (int i = 0; i < 9; i++)
         g.pos[i] = 0;
 
+    //initializing stuff for MENU
 
-    //initializing stuff for the menu
-   
+    Image pong_logo = LoadImage("resources/ponglogo.png");
+    ImageResize(&pong_logo,400,400);
+    Texture2D ponglogo = LoadTextureFromImage(pong_logo);
+
+    Image rpssl_logo = LoadImage("resources/rpssl.png");
+    ImageResize(&rpssl_logo,400,400);
+    Texture2D rpssllogo = LoadTextureFromImage(rpssl_logo);
+
+    Image tictactoe_logo = LoadImage("resources/tictactoelogo.png");
+    ImageResize(&tictactoe_logo,400,400);
+    Texture2D tictactoelogo = LoadTextureFromImage(tictactoe_logo);
+
+
     struct Button menu_Button[3];
     for (int i = 0; i < 3; i++)
     {
-        menu_Button[i].btn_action = 0; 
-        menu_Button[i].btn_bounds.x= 100 + 250*i;
-        menu_Button[i].btn_bounds.y=  450;
-        menu_Button[i].btn_bounds.height= 100;
-        menu_Button[i].btn_bounds.width= 100;
-        menu_Button[i].btn_color=YELLOW;
+        menu_Button[i].btn_action = 0;
+        menu_Button[i].btn_bounds.x = 200 + 420 * i;
+        menu_Button[i].btn_bounds.y = 450;
+        menu_Button[i].btn_bounds.height = 400;
+        menu_Button[i].btn_bounds.width = 400;
+        menu_Button[i].btn_color = YELLOW;
     }
-    
-    
+
     SetTargetFPS(240);
     //mainloop which updates every
     while (!WindowShouldClose())
@@ -142,8 +162,8 @@ int main()
         switch (Game_Window)
         {
         case 0:
-            Draw_Menu(menu_Button);
-            Menu_button(menu_Button,Game_Window,mousePoint);
+            Draw_Menu(menu_Button,ponglogo,tictactoelogo,rpssllogo);
+            Menu_button(menu_Button, Game_Window, mousePoint);
             break;
         case 3:
             Draw_Pong(&player1, &player2, red1, red2, blue1, blue2, &ball, bricks);
@@ -154,11 +174,14 @@ int main()
             break;
         }
     }
+
+    //unloading textures from GPU
     UnloadTexture(Cross);
     UnloadTexture(Nought);
     UnloadTexture(grid_texture);
     UnloadTexture(blank);
-    
-
+    UnloadTexture(ponglogo);
+    UnloadTexture(rpssllogo);
+    UnloadTexture(tictactoelogo);
     return 0;
 }

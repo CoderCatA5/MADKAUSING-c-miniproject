@@ -113,4 +113,4 @@ void Draw_TicTacToe(
 //Menu stuff
 void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint);
 
-void Draw_Menu(struct Button *b);
+void Draw_Menu(struct Button *b,Texture2D ponglogo,Texture2D tictactoelogo,Texture2D rpssllogo);

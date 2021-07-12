@@ -378,8 +378,8 @@ void Draw_TicTacToe(
     EndDrawing();
 }
 
-
-void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint){
+void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint)
+{
     mousePoint = GetMousePosition();
     for (int i = 0; i < 3; i++)
     {
@@ -390,20 +390,28 @@ void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint){
             if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
                 (b + i)->btn_action = 1;
         }
-        if ((b + i)->btn_action == 1){
-            
-            Game_Window = i+1;
+        if ((b + i)->btn_action == 1)
+        {
+
+            Game_Window = i + 1;
         }
     }
 }
 
-
-void Draw_Menu(struct Button *b){
+void Draw_Menu(struct Button *b,Texture2D ponglogo,Texture2D tictactoelogo,Texture2D rpssllogo)
+{
     BeginDrawing();
     ClearBackground(BLACK);
-    for(int i=0;i<3;i++){
-         DrawRectangleRec((b+i)->btn_bounds,(b+i)->btn_color);
+    //for (int i = 0; i < 3; i++)
+    //{
+        //DrawRectangleRec((b + i)->btn_bounds, (b + i)->btn_color);
         //DrawTexture(ponglogo,(b+i)->btn_bounds.x,(b+i)->btn_bounds.y,BLANK);
-    }
+    //}
+    char text[]="M A D K A U S I N G";
+
+    DrawText(text,300,100,100,WHITE);
+    DrawTexture(rpssllogo,(b+0)->btn_bounds.x,(b+0)->btn_bounds.y,WHITE);
+    DrawTexture(tictactoelogo,(b+1)->btn_bounds.x,(b+1)->btn_bounds.y,WHITE);
+    DrawTexture(ponglogo,(b+2)->btn_bounds.x,(b+2)->btn_bounds.y,WHITE);
     EndDrawing();
 }
