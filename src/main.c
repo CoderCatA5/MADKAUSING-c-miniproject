@@ -9,6 +9,7 @@ int WINWIDTH = 1600;
 
 int main()
 {
+    RESET:
     //initializing game window
     Game_Window = 0;
     /*
@@ -16,12 +17,16 @@ int main()
     1-RLSPS
     2=TICTACTOE
     3-PONG
+    4-CREDITS
+
+    6- RESEST
+
+
     */
 
     //initializing window
     InitWindow(WINWIDTH, WINHEIGHT, "MadKauSing");
     SetWindowIcon(LoadImage("resources/madkausinglogo.png"));
-
 
     //initializing elements for PONG
 
@@ -134,19 +139,23 @@ int main()
     //initializing stuff for MENU
 
     Image pong_logo = LoadImage("resources/ponglogo.png");
-    ImageResize(&pong_logo,400,400);
+    ImageResize(&pong_logo, 400, 400);
     Texture2D ponglogo = LoadTextureFromImage(pong_logo);
 
     Image rpssl_logo = LoadImage("resources/rpssl.png");
-    ImageResize(&rpssl_logo,400,400);
+    ImageResize(&rpssl_logo, 400, 400);
     Texture2D rpssllogo = LoadTextureFromImage(rpssl_logo);
 
     Image tictactoe_logo = LoadImage("resources/tictactoelogo.png");
-    ImageResize(&tictactoe_logo,400,400);
+    ImageResize(&tictactoe_logo, 400, 400);
     Texture2D tictactoelogo = LoadTextureFromImage(tictactoe_logo);
 
+    Image mks_logo = LoadImage("resources/madkausing.png");
+    ImageResize(&mks_logo, 400, 400);
+    Texture2D mkslogo = LoadTextureFromImage(mks_logo);
 
-    struct Button menu_Button[3];
+
+    struct Button menu_Button[4];
     for (int i = 0; i < 3; i++)
     {
         menu_Button[i].btn_action = 0;
@@ -156,17 +165,72 @@ int main()
         menu_Button[i].btn_bounds.width = 400;
         menu_Button[i].btn_color = YELLOW;
     }
+    menu_Button[3].btn_action=0;
+    menu_Button[3].btn_bounds.x = 600;
+    menu_Button[3].btn_bounds.y = 150;        
+    menu_Button[3].btn_bounds.height = 400;
+    menu_Button[3].btn_bounds.width = 400;
+    menu_Button[3].btn_color = YELLOW;
+
+    //Initialization for RPSLS:
+
+    Image rock_img = LoadImage("resources/rock.png");
+    ImageResize(&rock_img, 200, 200);
+    Texture2D rock = LoadTextureFromImage(rock_img);
+    
+    Image paper_img = LoadImage("resources/paper.png");
+    ImageResize(&paper_img, 200, 200);
+    Texture2D paper = LoadTextureFromImage(paper_img);
+    
+    Image scissors_img = LoadImage("resources/scissors.png");
+    ImageResize(&scissors_img, 200, 200);
+    Texture2D scissors = LoadTextureFromImage(scissors_img);
+    
+    Image lizard_img = LoadImage("resources/lizard.png");
+    ImageResize(&lizard_img, 250, 250);
+    Texture2D lizard = LoadTextureFromImage(lizard_img);
+    
+    Image spock_img = LoadImage("resources/spock.png");
+    ImageResize(&spock_img, 200, 200);
+    Texture2D spock = LoadTextureFromImage(spock_img);
+    
+    
+    //buttons for rlsps
+    struct Button b_rpsls[5];
+    struct game_rpsls g_r;
+    g_r.winner = 0;
+    g_r.p_choice = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        b_rpsls[i].btn_state = 0;
+        b_rpsls[i].btn_action = 0;
+        b_rpsls[i].btn_color = RAYWHITE;
+        //b[i].img = blank;
+    }
+    for (int i = 0; i < 5; i++)
+    {
+        b_rpsls[i].btn_bounds.x = 100 + 300 * i;
+        b_rpsls[i].btn_bounds.y = 350;
+        b_rpsls[i].btn_bounds.width = 150;
+        b_rpsls[i].btn_bounds.height = 150;
+    }
 
     SetTargetFPS(240);
-    //mainloop which updates every
+    //mainloop which updates ever
+    //Game_Window=1;
     while (!WindowShouldClose())
     {
         switch (Game_Window)
         {
         case 0:
-            Draw_Menu(menu_Button,ponglogo,tictactoelogo,rpssllogo);
+
+            Draw_Menu(menu_Button, ponglogo, tictactoelogo, rpssllogo,mkslogo);
             Menu_button(menu_Button, Game_Window, mousePoint);
             break;
+        case 1:
+            Draw_rpsls(WINHEIGHT,WINHEIGHT,rock,paper,scissors,lizard,spock,b_rpsls,&g_r);
+            break;
+
         case 3:
             Draw_Pong(&player1, &player2, red1, red2, blue1, blue2, &ball, bricks);
             break;
@@ -174,6 +238,13 @@ int main()
         case 2:
             Draw_TicTacToe(WINHEIGHT, WINWIDTH, mousePoint, Cross, Nought, grid_texture, b, &g);
             break;
+        case 4:
+            Display_credits();
+            break;
+
+        case 6:
+            CloseWindow();
+            goto RESET;
         }
     }
 
@@ -185,5 +256,11 @@ int main()
     UnloadTexture(ponglogo);
     UnloadTexture(rpssllogo);
     UnloadTexture(tictactoelogo);
+    UnloadTexture(mkslogo);
+    UnloadTexture(rock);
+    UnloadTexture(paper);
+    UnloadTexture(scissors);
+    UnloadTexture(lizard);
+    UnloadTexture(spock);
     return 0;
 }

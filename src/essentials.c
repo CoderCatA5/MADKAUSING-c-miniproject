@@ -100,7 +100,8 @@ void Render_Pong(struct Slider_pong *player1,
 
     if (ball->active)
         DrawCircleGradient(ball->pos.x, ball->pos.y, ball->radius, WHITE, PINK);
-
+    else
+        Game_End();
     for (int i = 0; i < 60; i++)
     {
         if ((bricks + i)->is_active)
@@ -374,14 +375,153 @@ void Draw_TicTacToe(
             DrawText("Player 2 wins.", 700, 450, 30, GREEN);
             break;
         }
+        Game_End();
     }
     EndDrawing();
 }
 
+//rpsls functions
+
+void Draw_rpsls(int WINHEIGHT,
+                int WINWIDTH,
+                Texture2D rock,
+                Texture2D paper,
+                Texture2D scissors,
+                Texture2D lizard,
+                Texture2D spock,
+                struct Button *b,
+                struct game_rpsls *g_r)
+{
+    Vector2 mousePoint = GetMousePosition();
+    char choice_names[5][10] = {"Rock", "Paper", "Scissor", "Lizard", "Spock"};
+
+    BeginDrawing();
+    ClearBackground(BLACK);
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        printf("%d %d %d \n", g_r->p_choice, g_r->c_choice, g_r->winner);
+
+    Render_rpsls(b, g_r, rock, paper, scissors, lizard, spock);
+
+    if (g_r->winner == 0)
+        check_button_rpsls(b, g_r, mousePoint);
+    if (g_r->winner != 0)
+    {
+        DrawText(FormatText("You picked: %s", choice_names[g_r->p_choice]), 550, 250, 50, RAYWHITE);
+        DrawText(FormatText("Computer picked: %s", choice_names[g_r->c_choice]), 480, 180, 50, RAYWHITE);
+
+        switch (g_r->winner)
+        {
+        case 1:
+            DrawText("You win.", 690, 650, 60, GREEN);
+            break;
+        case 2:
+            DrawText("You lose.", 690, 650, 60, RED);
+            break;
+        case 3:
+            DrawText("Draw.", 690, 650, 60, GRAY);
+            break;
+        }
+        Game_End();
+    }
+
+    EndDrawing();
+}
+
+int comp_turn()
+{
+    int rig_mode = GetRandomValue(0, 4);
+    return rig_mode;
+}
+
+void Render_rpsls(struct Button *b,
+                  struct game_rpsls *game,
+                  Texture2D rock,
+                  Texture2D paper,
+                  Texture2D scissors,
+                  Texture2D lizard,
+                  Texture2D spock)
+{
+    DrawTexture(rock, b->btn_bounds.x, b->btn_bounds.y, b->btn_color);
+    DrawTexture(paper, (b + 1)->btn_bounds.x, (b + 1)->btn_bounds.y, (b + 1)->btn_color);
+    DrawTexture(scissors, (b + 2)->btn_bounds.x, (b + 2)->btn_bounds.y, (b + 2)->btn_color);
+    DrawTexture(lizard, (b + 3)->btn_bounds.x, (b + 3)->btn_bounds.y, (b + 3)->btn_color);
+    DrawTexture(spock, (b + 4)->btn_bounds.x, (b + 4)->btn_bounds.y, (b + 4)->btn_color);
+}
+
+void check_button_rpsls(struct Button *b_rpsls, struct game_rpsls *g_r, Vector2 mousePoint)
+{
+    for (int i = 0; i < 5; i++)
+    {
+
+        //if statement checks if the mouse is over the button and the user has left clicked on the button
+        if (CheckCollisionPointRec(mousePoint, (b_rpsls + i)->btn_bounds))
+        {
+            //btn_state will be used when textures are implemented
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                (b_rpsls + i)->btn_action = 1;
+        }
+
+        if ((b_rpsls + i)->btn_action == 1)
+        {
+            g_r->p_choice = i;
+            check_winner_rpsls(g_r);
+            if (g_r->winner == 1)
+                (b_rpsls + i)->btn_color = GREEN;
+            else if (g_r->winner == 2)
+                (b_rpsls + i)->btn_color = RED;
+            else if (g_r->winner == 3)
+                (b_rpsls + i)->btn_color = BLUE;
+        }
+    }
+}
+
+void check_winner_rpsls(struct game_rpsls *g_r)
+{
+    if (g_r->winner == 0) //if the game has not been played yet. Make the comp pick a move.
+        g_r->c_choice = comp_turn();
+    switch (g_r->p_choice)
+    {
+    case 0:
+        if (g_r->c_choice == 2 || g_r->c_choice == 3)
+            g_r->winner = 1;
+        else
+            g_r->winner = 2;
+        break;
+    case 1:
+        if (g_r->c_choice == 0 || g_r->c_choice == 4)
+            g_r->winner = 1;
+        else
+            g_r->winner = 2;
+        break;
+    case 2:
+        if (g_r->c_choice == 1 || g_r->c_choice == 3)
+            g_r->winner = 1;
+        else
+            g_r->winner = 2;
+        break;
+    case 3:
+        if (g_r->c_choice == 1 || g_r->c_choice == 4)
+            g_r->winner = 1;
+        else
+            g_r->winner = 2;
+        break;
+    case 4:
+        if (g_r->c_choice == 0 || g_r->c_choice == 2)
+            g_r->winner = 1;
+        else
+            g_r->winner = 2;
+        break;
+    }
+    if (g_r->p_choice == g_r->c_choice) //draw
+        g_r->winner = 3;
+}
+/////
+
 void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint)
 {
     mousePoint = GetMousePosition();
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         //if statement checks if the mouse is over the button and the user has left clicked on the button
         if (CheckCollisionPointRec(mousePoint, (b + i)->btn_bounds))
@@ -398,20 +538,49 @@ void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint)
     }
 }
 
-void Draw_Menu(struct Button *b,Texture2D ponglogo,Texture2D tictactoelogo,Texture2D rpssllogo)
+void Draw_Menu(struct Button *b, Texture2D ponglogo, Texture2D tictactoelogo, Texture2D rpssllogo, Texture2D mkslogo)
 {
     BeginDrawing();
     ClearBackground(BLACK);
     //for (int i = 0; i < 3; i++)
     //{
-        //DrawRectangleRec((b + i)->btn_bounds, (b + i)->btn_color);
-        //DrawTexture(ponglogo,(b+i)->btn_bounds.x,(b+i)->btn_bounds.y,BLANK);
+    //DrawRectangleRec((b + i)->btn_bounds, (b + i)->btn_color);
+    //DrawTexture(ponglogo,(b+i)->btn_bounds.x,(b+i)->btn_bounds.y,BLANK);
     //}
-    char text[]="M A D K A U S I N G";
+    char text[] = "M A D K A U S I N G";
 
-    DrawText(text,300,100,100,WHITE);
-    DrawTexture(rpssllogo,(b+0)->btn_bounds.x,(b+0)->btn_bounds.y,WHITE);
-    DrawTexture(tictactoelogo,(b+1)->btn_bounds.x,(b+1)->btn_bounds.y,WHITE);
-    DrawTexture(ponglogo,(b+2)->btn_bounds.x,(b+2)->btn_bounds.y,WHITE);
+    DrawText(text, 300, 50, 100, WHITE);
+    DrawTexture(rpssllogo, (b + 0)->btn_bounds.x, (b + 0)->btn_bounds.y, WHITE);
+    DrawTexture(tictactoelogo, (b + 1)->btn_bounds.x, (b + 1)->btn_bounds.y, WHITE);
+    DrawTexture(ponglogo, (b + 2)->btn_bounds.x, (b + 2)->btn_bounds.y, WHITE);
+    DrawTexture(mkslogo, (b + 3)->btn_bounds.x, (b + 3)->btn_bounds.y, WHITE);
     EndDrawing();
+}
+void Display_credits()
+{
+    BeginDrawing();
+    ClearBackground(BLACK);
+    char credits1[] = {"C R E A T E D  B Y"};
+    char credits2[] = {"AYUSH SINGH"};
+    char credits3[] = {"AYUSHMAAN KAUSHIK"};
+    char credits4[] = {"BHAVINI MADHURANATH"};
+    char credits5[] = {"A R T  B Y"};
+    char credits6[] = {"SEJAL SURYAWANSHI"};
+    DrawText(credits1, 300, 50, 100, WHITE);
+    DrawText(credits2, 600, 170, 60, WHITE);
+    DrawText(credits3, 460, 270, 60, WHITE);
+    DrawText(credits4, 430, 370, 60, WHITE);
+    DrawText(credits5, 550, 500, 100, WHITE);
+    DrawText(credits6, 500, 620, 60, WHITE);
+    Game_End();
+    EndDrawing();
+}
+void Game_End()
+{
+    char text[] = "PRESS ENTER TO GO BACK TO MAIN MENU";
+    DrawText(text, 250,800 , 50, WHITE);
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        Game_Window = 6;
+    }
 }
