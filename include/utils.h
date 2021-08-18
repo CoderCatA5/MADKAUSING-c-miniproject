@@ -110,3 +110,48 @@ void Draw_TicTacToe(
     struct Button *b,
     struct game *g);
 
+//Menu stuff
+void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint);
+
+void Draw_Menu(struct Button *b, Texture2D ponglogo, Texture2D tictactoelogo, Texture2D rpssllogo, Texture2D mkslogo);
+//void Draw_Credit(struct Button *b,Texture2D ponglogo,Texture2D tictactoelogo,Texture2D rpssllogo);
+void Display_credits();
+//RPSLS stuff
+struct game_rpsls
+{
+    //int mode;//game
+    //int winner;// 0 - draw , 1 - Player1 wins , 2 - Player2 wins
+    // int round;
+    // int score_p1,score_p2; //score per player
+    // bool game_end;
+    int winner;
+    int p_choice;
+    int c_choice;
+};
+
+void Render_rpsls(struct Button *b,
+                struct game_rpsls *game,
+                  Texture2D rock,
+                  Texture2D paper,
+                  Texture2D scissors,
+                  Texture2D lizard,
+                  Texture2D spock);
+
+
+
+void check_button_rpsls(struct Button *b_rpsls, struct game_rpsls *g_r, Vector2 mousePoint);
+
+
+void Draw_rpsls(int WINHEIGHT,
+                int WINWIDTH,
+                Texture2D rock,
+                Texture2D paper,
+                Texture2D scissors,
+                Texture2D lizard,
+                Texture2D spock,
+                struct Button *b,
+                struct game_rpsls *g_r);
+
+
+void check_winner_rpsls(struct game_rpsls *g_r);
+void Game_End();
