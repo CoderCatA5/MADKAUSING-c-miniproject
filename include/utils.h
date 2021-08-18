@@ -1,14 +1,17 @@
+//MADKAUSING
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "raylib.h"
 
-//some colors
+//some custom colors
 #define CANARY (Color){250, 255, 129, 1};
 #define Pong_Blue (Color){19, 255, 244, 1};
 #define Pong_Yellow (Color){255, 247, 20, 1};
 #define Pong_Red (Color){255, 37, 19, 1};
 
+//controls which minigame to run
 int Game_Window;
 
 //some structs we are using for pong
@@ -75,7 +78,8 @@ void Draw_Pong(
     struct Ball_pong *ball,
     struct Bricks_pong *bricks);
 
-//tictactoe
+//TICTACTOE
+//structs for tictactoe
 struct game
 {
     int mode;   //game mode 1-Single player , 2 - Double player
@@ -94,6 +98,7 @@ struct Button
     Texture2D img;
 };
 
+//functions for tictactoe
 void check_button(struct Button *b, struct game *g, Vector2 mousePoint, Texture2D X, Texture2D O);
 
 void make_grid(struct Button *b, int WindowWidth, int WindowHeight, Texture2D grid);
@@ -114,9 +119,12 @@ void Draw_TicTacToe(
 void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint);
 
 void Draw_Menu(struct Button *b, Texture2D ponglogo, Texture2D tictactoelogo, Texture2D rpssllogo, Texture2D mkslogo);
-//void Draw_Credit(struct Button *b,Texture2D ponglogo,Texture2D tictactoelogo,Texture2D rpssllogo);
+
 void Display_credits();
+
 //RPSLS stuff
+
+//structs for rlsps
 struct game_rpsls
 {
     //int mode;//game
@@ -130,17 +138,14 @@ struct game_rpsls
 };
 
 void Render_rpsls(struct Button *b,
-                struct game_rpsls *game,
+                  struct game_rpsls *game,
                   Texture2D rock,
                   Texture2D paper,
                   Texture2D scissors,
                   Texture2D lizard,
                   Texture2D spock);
 
-
-
 void check_button_rpsls(struct Button *b_rpsls, struct game_rpsls *g_r, Vector2 mousePoint);
-
 
 void Draw_rpsls(int WINHEIGHT,
                 int WINWIDTH,
@@ -151,7 +156,6 @@ void Draw_rpsls(int WINHEIGHT,
                 Texture2D spock,
                 struct Button *b,
                 struct game_rpsls *g_r);
-
 
 void check_winner_rpsls(struct game_rpsls *g_r);
 void Game_End();

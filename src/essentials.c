@@ -1,3 +1,5 @@
+//MADKAUSING
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -5,6 +7,8 @@
 #include "../include/utils.h"
 
 //functions for pong
+
+//function updates ball position with logic each frame.
 void Ballmovement(struct Ball_pong *ball)
 {
 
@@ -51,6 +55,7 @@ void Ballmovement(struct Ball_pong *ball)
     //fixing ball glitches;
 }
 
+//function to take player inputs
 void Check_Inputs(struct Slider_pong *player1, struct Slider_pong *player2)
 {
     //checkin player inputs
@@ -73,6 +78,7 @@ void Check_Inputs(struct Slider_pong *player1, struct Slider_pong *player2)
     }
 }
 
+//function to render all components for pong.
 void Render_Pong(struct Slider_pong *player1,
                  struct Slider_pong *player2,
                  Rectangle red1,
@@ -132,6 +138,7 @@ void Render_Pong(struct Slider_pong *player1,
     }
 }
 
+//function to check collisions
 void Pong_check_collisions(
     struct Ball_pong *ball,
     struct Slider_pong *player1,
@@ -193,6 +200,7 @@ void Pong_check_collisions(
         ball->active = 0;
 }
 
+//function to render lives
 void Render_Lives(
     struct Slider_pong *player1,
     struct Slider_pong *player2)
@@ -207,6 +215,7 @@ void Render_Lives(
     DrawText(snum2, 1100, 300, 80, RAYWHITE);
 }
 
+//the compiled frame drawing for each frame
 void Draw_Pong(
     struct Slider_pong *player1,
     struct Slider_pong *player2,
@@ -229,6 +238,7 @@ void Draw_Pong(
 
 //functions for tictactoe
 
+//making a custom button fucntion
 void check_button(struct Button *b, struct game *g, Vector2 mousePoint, Texture2D X, Texture2D O)
 {
     for (int i = 0; i < 9; i++)
@@ -262,6 +272,7 @@ void check_button(struct Button *b, struct game *g, Vector2 mousePoint, Texture2
     }
 }
 
+//function generates the grid
 void make_grid(struct Button *b, int WindowWidth, int WindowHeight, Texture2D grid)
 {
     DrawTexture(grid, WindowWidth / 2 - grid.width / 2, WindowHeight / 2 - grid.height / 2, WHITE);
@@ -272,6 +283,7 @@ void make_grid(struct Button *b, int WindowWidth, int WindowHeight, Texture2D gr
     }
 }
 
+//checks end condition for tictactoe
 bool check_win_condition(struct game *g)
 {
     int sign;
@@ -326,6 +338,7 @@ bool check_win_condition(struct game *g)
     return g->game_end;
 }
 
+//compiler function for all textures each frame
 void Draw_TicTacToe(
     int WINHEIGHT,
     int WINWIDTH,
@@ -516,8 +529,8 @@ void check_winner_rpsls(struct game_rpsls *g_r)
     if (g_r->p_choice == g_r->c_choice) //draw
         g_r->winner = 3;
 }
-/////
 
+//functions for menu
 void Menu_button(struct Button *b, int Game_window, Vector2 mousePoint)
 {
     mousePoint = GetMousePosition();
@@ -556,6 +569,8 @@ void Draw_Menu(struct Button *b, Texture2D ponglogo, Texture2D tictactoelogo, Te
     DrawTexture(mkslogo, (b + 3)->btn_bounds.x, (b + 3)->btn_bounds.y, WHITE);
     EndDrawing();
 }
+
+//function to display credits
 void Display_credits()
 {
     BeginDrawing();
@@ -578,7 +593,7 @@ void Display_credits()
 void Game_End()
 {
     char text[] = "PRESS ENTER TO GO BACK TO MAIN MENU";
-    DrawText(text, 250,800 , 50, WHITE);
+    DrawText(text, 250, 800, 50, WHITE);
     if (IsKeyPressed(KEY_ENTER))
     {
         Game_Window = 6;

@@ -1,15 +1,18 @@
+//MADKAUSING
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "../include/raylib.h"
 #include "../include/utils.h"
 
+//defining deafult dimensions for game window
 int WINHEIGHT = 900;
 int WINWIDTH = 1600;
 
 int main()
 {
-    RESET:
+RESET:
     //initializing game window
     Game_Window = 0;
     /*
@@ -18,10 +21,7 @@ int main()
     2=TICTACTOE
     3-PONG
     4-CREDITS
-
     6- RESEST
-
-
     */
 
     //initializing window
@@ -97,7 +97,6 @@ int main()
     Image O = LoadImage("resources/O logo.png");
     ImageResize(&O, (float)O.width / 5, (float)O.height / 5);
     Image grid = LoadImage("resources/grid logo.png");
-
     Texture2D Cross = LoadTextureFromImage(X);
     Texture2D Nought = LoadTextureFromImage(O);
     Texture2D grid_texture = LoadTextureFromImage(grid);
@@ -128,6 +127,7 @@ int main()
         }
     }
 
+    //initializing the game control for pong
     struct game g;
     g.mode = 0;
     g.winner = 0;
@@ -137,7 +137,6 @@ int main()
         g.pos[i] = 0;
 
     //initializing stuff for MENU
-
     Image pong_logo = LoadImage("resources/ponglogo.png");
     ImageResize(&pong_logo, 400, 400);
     Texture2D ponglogo = LoadTextureFromImage(pong_logo);
@@ -154,7 +153,7 @@ int main()
     ImageResize(&mks_logo, 400, 400);
     Texture2D mkslogo = LoadTextureFromImage(mks_logo);
 
-
+    //intitiallizing all menu buttons
     struct Button menu_Button[4];
     for (int i = 0; i < 3; i++)
     {
@@ -165,36 +164,34 @@ int main()
         menu_Button[i].btn_bounds.width = 400;
         menu_Button[i].btn_color = YELLOW;
     }
-    menu_Button[3].btn_action=0;
+    menu_Button[3].btn_action = 0;
     menu_Button[3].btn_bounds.x = 600;
-    menu_Button[3].btn_bounds.y = 150;        
+    menu_Button[3].btn_bounds.y = 150;
     menu_Button[3].btn_bounds.height = 400;
     menu_Button[3].btn_bounds.width = 400;
     menu_Button[3].btn_color = YELLOW;
 
     //Initialization for RPSLS:
-
     Image rock_img = LoadImage("resources/rock.png");
     ImageResize(&rock_img, 200, 200);
     Texture2D rock = LoadTextureFromImage(rock_img);
-    
+
     Image paper_img = LoadImage("resources/paper.png");
     ImageResize(&paper_img, 200, 200);
     Texture2D paper = LoadTextureFromImage(paper_img);
-    
+
     Image scissors_img = LoadImage("resources/scissors.png");
     ImageResize(&scissors_img, 200, 200);
     Texture2D scissors = LoadTextureFromImage(scissors_img);
-    
+
     Image lizard_img = LoadImage("resources/lizard.png");
     ImageResize(&lizard_img, 250, 250);
     Texture2D lizard = LoadTextureFromImage(lizard_img);
-    
+
     Image spock_img = LoadImage("resources/spock.png");
     ImageResize(&spock_img, 200, 200);
     Texture2D spock = LoadTextureFromImage(spock_img);
-    
-    
+
     //buttons for rlsps
     struct Button b_rpsls[5];
     struct game_rpsls g_r;
@@ -220,15 +217,15 @@ int main()
     //Game_Window=1;
     while (!WindowShouldClose())
     {
-        switch (Game_Window)
+        switch (Game_Window) //game window tells the compiler which set of textures to be rendered
         {
         case 0:
 
-            Draw_Menu(menu_Button, ponglogo, tictactoelogo, rpssllogo,mkslogo);
+            Draw_Menu(menu_Button, ponglogo, tictactoelogo, rpssllogo, mkslogo);
             Menu_button(menu_Button, Game_Window, mousePoint);
             break;
         case 1:
-            Draw_rpsls(WINHEIGHT,WINHEIGHT,rock,paper,scissors,lizard,spock,b_rpsls,&g_r);
+            Draw_rpsls(WINHEIGHT, WINHEIGHT, rock, paper, scissors, lizard, spock, b_rpsls, &g_r);
             break;
 
         case 3:
@@ -245,6 +242,7 @@ int main()
         case 6:
             CloseWindow();
             goto RESET;
+            //resets game reinitializes all variables
         }
     }
 
